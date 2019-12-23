@@ -22,9 +22,10 @@ int main(int argc, char* argv[]) {
   mpreal epsilon; // = "1e-6"; // Bulirsch-Stoer tolerance
   int numBits;	
   double dt;
+  int pmax;
 
-  cin >> n >> t_end >> dt >> epsilon >> numBits;
-  cout << "# n=" << n << " tend=" << t_end <<  " dt=" << dt << " eps=" << epsilon  <<  " lw=" << numBits <<endl;
+  cin >> n >> t_end >> dt >> epsilon >> numBits >> pmax;
+  cout << "# n=" << n << " tend=" << t_end <<  " dt=" << dt << " eps=" << epsilon  <<  " lw=" << numBits << " pmax=" << pmax <<endl;
   //store data in vector
   vector<double> data(7*n);
   vector<mpreal> datmp(7*n);
@@ -36,7 +37,7 @@ int main(int argc, char* argv[]) {
    }
  
    //Brutus brutus = Brutus(datmp);
-   Brutus brutus = Brutus(t, datmp, epsilon, numBits);
+  Brutus brutus = Brutus(t, datmp, epsilon, numBits, pmax);
 
    vector<string> v = brutus.get_data_string();
    for (int i = 0; i < v.size(); ++i){

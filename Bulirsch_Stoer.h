@@ -6,21 +6,24 @@
 
 class Bulirsch_Stoer {
   mpreal tolerance;
-  int n_max, k_max;
-
+  int n_max, k_max, p_max;
+  //p_max maximum order of ploynomial
   public:
 
   Bulirsch_Stoer();
   Bulirsch_Stoer(mpreal tolerance);
   Bulirsch_Stoer(mpreal tolerance, int n_max, int k_max);
+  Bulirsch_Stoer(mpreal tolerance, int n_max, int k_max, int p_max);
 
   void set_tolerance(mpreal tolerance);
   void set_n_max(int n_max);
   void set_k_max(int k_max);
+  void set_p_max(int p_max);
 
   mpreal get_tolerance();
   int get_n_max();
   int get_k_max();
+  int get_p_max();
 
   bool integrate(Cluster &cl, mpreal &dt);
   bool step(Cluster &cl, mpreal &dt);

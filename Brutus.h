@@ -12,6 +12,7 @@ class Brutus {
 
   mpreal tolerance;
   int numBits;
+  int pmax;
 
   mpreal eta, dt;
 
@@ -24,6 +25,7 @@ class Brutus {
   Brutus(vector<mpreal> &data);
   Brutus(mpreal &t, vector<mpreal> &data, mpreal &tolerance);
   Brutus(mpreal &t, vector<mpreal> &data, mpreal &tolerance, int &numBits);
+  Brutus(mpreal &t, vector<mpreal> &data, mpreal &tolerance, int &numBits, int &pmax);
 
   void set_data(vector<mpreal> &data);
   void set_eta(mpreal &eta);

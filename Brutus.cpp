@@ -49,6 +49,18 @@ Brutus::Brutus(mpreal &t, vector<mpreal> &data, mpreal &tolerance, int &numBits)
   setup();
 }
 
+Brutus::Brutus(mpreal &t, vector<mpreal> &data, mpreal &tolerance, int &numBits, int &pmax) {
+  this->t = t;
+  this->data = data;
+  N = data.size()/7;
+
+  this->tolerance = tolerance;
+  this->numBits = numBits;
+  this->pmax = pmax;
+  eta = get_eta(tolerance);
+
+  setup();
+}
 void Brutus::set_data(vector<mpreal> &data) {
   this->data = data;
   N = data.size()/7; 
@@ -132,6 +144,7 @@ void Brutus::setup() {
   bs = b;
 
   eta = get_eta(tolerance);  
+  bs.set_p_max(pmax);
 }
 
 void Brutus::evolve(mpreal t_end) {

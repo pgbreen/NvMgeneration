@@ -11,7 +11,7 @@
 .DEFAULT_GOAL := main.exe
 ###################################################################
 COMP = $(CXX)
-CFLAGS = -O1 $(CXXFLAGS)  -lmpfr -lgmp -L/home/pbreen/Amuse1/amuse/prerequisites/include/
+CFLAGS = -O1 $(CXXFLAGS) -std=gnu++11  -lmpfr -lgmp -L/home/breen/mpfr-4.0.2/src/.libs/
 CC  = $(COMP) $(CFLAGS) -c
 CO  = $(COMP) $(CFLAGS) -o
 ###################################################################

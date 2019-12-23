@@ -4,16 +4,27 @@ Bulirsch_Stoer::Bulirsch_Stoer() {
   tolerance = "1e-6";
   n_max = 32;
   k_max = 128;
+  p_max = 4;
 }
 Bulirsch_Stoer::Bulirsch_Stoer(mpreal tolerance) {
   this->tolerance = tolerance;
   n_max = 32;
   k_max = 128;
+  p_max = 4;
 }
+
 Bulirsch_Stoer::Bulirsch_Stoer(mpreal tolerance, int n_max, int k_max) {
   this->tolerance = tolerance;
   this->n_max = n_max;
   this->k_max = k_max;
+  this->p_max = 4;
+}
+
+Bulirsch_Stoer::Bulirsch_Stoer(mpreal tolerance, int n_max, int k_max, int p_max) {
+  this->tolerance = tolerance;
+  this->n_max = n_max;
+  this->k_max = k_max;
+  this->p_max = p_max;
 }
 
 void Bulirsch_Stoer::set_tolerance(mpreal tolerance) {
@@ -26,6 +37,10 @@ void Bulirsch_Stoer::set_k_max(int k_max) {
   this->k_max = k_max;
 }
 
+void Bulirsch_Stoer::set_p_max(int p_max) {
+  this->p_max = p_max;
+}
+
 mpreal Bulirsch_Stoer::get_tolerance() {
   return tolerance;
 }
@@ -35,6 +50,10 @@ int Bulirsch_Stoer::get_n_max() {
 int Bulirsch_Stoer::get_k_max() {
   return k_max;
 }
+int Bulirsch_Stoer::get_p_max() {
+  return p_max;
+}
+
 
 bool Bulirsch_Stoer::integrate(Cluster &cl, mpreal &dt) {
   Cluster c0 = cl;
@@ -79,7 +98,9 @@ bool Bulirsch_Stoer::step(Cluster &cl, mpreal &dt) {
   n=2;
   h.push_back( dt/n );
   c.push_back( cl );
+
   for(int i=0; i<n; i++) c[1].step( h[1] );
+
   extrapol( cl_exp, h, c );
   
   flag = error_control(cl_exp0, cl_exp);
@@ -89,8 +110,17 @@ bool Bulirsch_Stoer::step(Cluster &cl, mpreal &dt) {
       n += 2;
       h.push_back( dt/n );
       c.push_back( cl );
+
+
       for(int i=0; i<n; i++) c[n/2].step( h[n/2] );
       cl_exp0 = cl_exp;
+
+      // remove older point from extraplotion                                                                                                             
+      // limits vector size to p_max most recent data points                                                                                                   
+      if(c.size()>p_max){
+	c.erase(c.begin());
+	h.erase(h.begin());
+      }
       extrapol( cl_exp, h, c );   
 
       flag = error_control(cl_exp0, cl_exp);   
