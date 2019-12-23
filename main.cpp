@@ -40,20 +40,23 @@ int main(int argc, char* argv[]) {
   Brutus brutus = Brutus(t, datmp, epsilon, numBits, pmax);
 
    vector<string> v = brutus.get_data_string();
+ 
+   vector<mpreal> e3;
+   mpreal e30 = brutus.get_energies()[0];
+
+   cout << t << " " << 0.0 << " ";
    for (int i = 0; i < v.size(); ++i){
-	cout << v[i] << " ";
+     cout << v[i] << " ";
    }
    cout << endl;
 
-   vector<mpreal> e3;
-   mpreal e30 = brutus.get_energies()[0];
    while(t<t_end) {
 	t+=dt;
    	brutus.evolve((mpreal)t);
    	v = brutus.get_data_string();
 	e3 = brutus.get_energies();
 	
-	cout << t << " " << (e3[0]/e30-1.0); 
+	cout << t << " " << (e3[0]/e30-1.0) << " "; 
    	for (int i = 0; i < v.size(); ++i){
 		cout << v[i] << " ";
 	   }

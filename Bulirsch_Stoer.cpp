@@ -111,16 +111,17 @@ bool Bulirsch_Stoer::step(Cluster &cl, mpreal &dt) {
       h.push_back( dt/n );
       c.push_back( cl );
 
-
-      for(int i=0; i<n; i++) c[n/2].step( h[n/2] );
+      //change to back n/2 no long correct index
+      for(int i=0; i<n; i++) (c.back()).step( h.back() );
       cl_exp0 = cl_exp;
-
+      
       // remove older point from extraplotion                                                                                                             
-      // limits vector size to p_max most recent data points                                                                                                   
+      // limits vector size to p_max most recent data points                                                                                           
       if(c.size()>p_max){
 	c.erase(c.begin());
 	h.erase(h.begin());
       }
+      
       extrapol( cl_exp, h, c );   
 
       flag = error_control(cl_exp0, cl_exp);   
